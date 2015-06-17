@@ -1,5 +1,7 @@
-<?php  
-if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+namespace Concrete\Package\Tableeditor\Core\Bootstrap;
+
+defined('C5_EXECUTE') or die(_("Access Denied."));
 
 /**
  * Name: Twitter Bootstrap PHP Helper Library
@@ -8,22 +10,28 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  */
 
 class Bootstrapped {
-		
+
 	public $error_callback = FALSE;
-	
+
 	public function __construct() {
 		if($this->error_callback == FALSE && function_exists('form_error')){
 			$this->error_callback = "form_error";
 		}
 	}
-	
+
+	public static function getFormtypes() {
+		return [
+			'checklist' => 'Concrete\Package\Tableeditor\Core\Bootstrap\Types\Checklist'
+		];
+	}
+
 	/**
 	 * Set the error callback method for checking to see if there was an error with the field
 	 */
 	public function set_error_method($callback) {
 		$this->error_callback = $callback;
 	}
-	
+
 	/**
 	 * Error check handler.
 	 * Returns the boolean result of the error_callback method if set
@@ -31,14 +39,14 @@ class Bootstrapped {
 	private function error($name) {
 		return !empty($this->error_callback) && call_user_func($this->error_callback, $name);
 	}
-	
+
 	/**
  	* Text Input
  	* Supports the prepend feature
  	*/
 	function input($label, $name, $value, $args){
 		return $this->proxied($label, $name, $value, "input", $args);
-	}   
+	}
 
 	/**
 	 * Textarea
@@ -46,7 +54,7 @@ class Bootstrapped {
 	 */
 	function textarea($label, $name, $value, $args){
 		return $this->proxied($label, $name, $value, "textarea", $args);
-	}   
+	}
 
 	/**
 	 * Select dropdowns
@@ -54,7 +62,7 @@ class Bootstrapped {
 	 */
 	function select($label, $name, $value, $args){
 		return $this->proxied($label, $name, $value, "select", $args);
-	}   
+	}
 
 	/**
 	 * Multiselect
@@ -63,7 +71,7 @@ class Bootstrapped {
 	function multiselect($label, $name, $value, $args){
 		if(!strstr($name, "[]")) $name .= "[]";
 		return $this->proxied($label, $name, $value, "multiselect", $args);
-	}   
+	}
 
 	/**
 	 * Checkbox list
@@ -71,15 +79,21 @@ class Bootstrapped {
 	 */
 	function checks($label, $args){
 		return $this->proxied($label, "", "", "checklist", $args);
-	}   
+	}
 
 	/**
 	 * Boot Proxied
-	 * This method is called from most of the other ones, just to keep things clean. 
+	 * This method is called from most of the other ones, just to keep things clean.
 	 * Handles building all the elements.
 	 * Returns the element as a string.
 	 */
-	private function proxied($label, $name, $value, $type, $args){
+	public function proxied($label, $name, $value, $type, $args){
+		$class = $this->getFormtypes()[$type];
+		if($class) {
+			return (new $class($name, $value, $args, $label))->render();
+		}
+
+
 		$opts = array_merge(array(
 							"class"		=> "",
 							"prepend"	=> "",
@@ -92,13 +106,13 @@ class Bootstrapped {
 		if (empty($opts['id'])) :
 			$opts['id'] = "boot_".$name;
 		endif;
-		
+
 		$out = '<div class="clearfix'.($this->error($name) ? " error" : "").'">';
 		$out .= '<label for="'.$opts['id'].'">'. $label .'</label><div class="input">';
-		
+
 		$classes = 'class="'. $opts['class'] . ($this->error($name)?" error":"") .'"';
-		$id = empty($opts['id']) ? '' : 'id="'.$opts['id'].'"';	
-		
+		$id = empty($opts['id']) ? '' : 'id="'.$opts['id'].'"';
+
 		switch($type) :
 			case "checklist":
 				$out .= '<ul class="inputs-list">';
@@ -108,9 +122,9 @@ class Bootstrapped {
 				$out .= '</ul>';
 				break;
 			case "textarea":
-				$rows = empty($opts['rows']) ? '' : 'rows="'.$opts['rows'].'"';	
+				$rows = empty($opts['rows']) ? '' : 'rows="'.$opts['rows'].'"';
 				$out .= "<textarea name=\"$name\" $id $classes $rows>".$value."</textarea>";
-				
+
 				break;
 			case "multiselect":
 			case "select":
@@ -127,9 +141,9 @@ class Bootstrapped {
 				if(!empty($opts['prepend'])) $out .= '</div>';
 				break;
 		endswitch;
-		
+
 		$out .= '</div></div>';
 		return $out;
 	}
-	
+
 }
