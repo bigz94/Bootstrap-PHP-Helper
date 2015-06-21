@@ -82,18 +82,54 @@ class Bootstrapped {
 	}
 
 	/**
+	 * Load and execute php file
+	 * @param  [type] $label    [description]
+	 * @param  [type] $name     [description]
+	 * @param  [type] $value    [description]
+	 * @param  [type] $args     [description]
+	 * @param  [type] $template [description]
+	 * @return [type] Compiled content of the php file
+	 */
+	protected function loadTemplate($label, $name, $value, $opts, $template) {
+		// load php template
+		ob_start();
+		include('templates/' . $template . '.php');
+		$content = ob_get_contents();
+		ob_end_clean();
+		return $content;
+	}
+
+	/**
 	 * Boot Proxied
 	 * This method is called from most of the other ones, just to keep things clean.
 	 * Handles building all the elements.
 	 * Returns the element as a string.
+	 * @param  [type] $label    [description]
+	 * @param  [type] $name     [description]
+	 * @param  [type] $value    [description]
+	 * @param  [type] $args     [description]
+	 * @param  [type] $template [description]
+	 * @return [type]           [description]
 	 */
 	public function proxied($label, $name, $value, $type, $args){
-		$class = $this->getFormtypes()[$type];
-		if($class) {
-			return (new $class($name, $value, $args, $label))->render();
-		}
+		$opts = array_merge(array(
+			"class"		=> "",
+			"prepend"	=> "",
+			"id"		=> "",
+			"rows"		=> "3",
+			"disabled"	=> false,
+			"inline"	=> false,
+			"placeholder" => "",
+			"options"	=> array(),
+		), $args);
 
+		if (empty($opts['id'])) :
+			$opts['id'] = $name;
+		endif;
 
+		return $this->loadTemplate($label, $name, $value, $opts, $type);
+
+	// END:
 		$opts = array_merge(array(
 							"class"		=> "",
 							"prepend"	=> "",
@@ -104,7 +140,7 @@ class Bootstrapped {
 						), $args);
 
 		if (empty($opts['id'])) :
-			$opts['id'] = "boot_".$name;
+			$opts['id'] = $name;
 		endif;
 
 		$out = '<div class="clearfix'.($this->error($name) ? " error" : "").'">';

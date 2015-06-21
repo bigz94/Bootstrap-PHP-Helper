@@ -2,9 +2,6 @@
 defined('C5_EXECUTE') or die(_("Access Denied."));
 /**
  * Template for the bootstrap checkbox
- * $label => {string / boolean} define if label should be used and define the
- * 		     label content
- * $name =>
  * $opts:
  * 	[class] => {string} define class
  * 	[id] => {string} define unique identifier
