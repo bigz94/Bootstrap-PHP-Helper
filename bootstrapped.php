@@ -19,12 +19,6 @@ class Bootstrapped {
 		}
 	}
 
-	public static function getFormtypes() {
-		return [
-			'checklist' => 'Concrete\Package\Tableeditor\Core\Bootstrap\Types\Checklist'
-		];
-	}
-
 	/**
 	 * Set the error callback method for checking to see if there was an error with the field
 	 */
@@ -119,6 +113,7 @@ class Bootstrapped {
 			"rows"		=> "3",
 			"disabled"	=> false,
 			"inline"	=> false,
+			"required"  => false,
 			"placeholder" => "",
 			"options"	=> array(),
 		), $args);
