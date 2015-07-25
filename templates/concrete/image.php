@@ -13,10 +13,12 @@ defined('C5_EXECUTE') or die(_("Access Denied."));
  * 	[options] => {array} options which are used for the image
  */
 $al = Core::make('helper/concrete/asset_library');
+$f = File::getByID($value);
 ?>
 <div id="<?= $opts['id'] ?>" class="form-group <?= $opts['class'] ?>">
     <?php if($label) : ?>
-        <label for="img-<?= $opts['id'] ?>"><?= $label ?></label>
+        <label for="<?= $name ?>"><?= $label ?></label>
     <?php endif ?>
-    <?= $al->image($name, 'img-' . $opts['id'], $opts['placeholder'], null, $opts['options']) ?>
+    <?= $value ?>
+    <?= $al->image('img-' . $opts['id'], $name, $opts['placeholder'], $f, $opts['options']) ?>
 </div>
