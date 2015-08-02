@@ -29,7 +29,7 @@ defined('C5_EXECUTE') or die(_("Access Denied."));
 <div id="<?= $opts['id'] ?>" class="form-group chosen-multiple <?= $opts['class'] ?>">
     <label class="control-label"><?= $label ?></label>
     <div class="chosen-multiple-select">
-        <select class="form-control" name="<?= $name ?>" <?= $opts['disabled'] ? 'disabled' : '' ?> multiple>
+        <select class="form-control" name="<?= $name ?>[]" <?= $opts['disabled'] ? 'disabled' : '' ?> multiple="multiple">
             <?php foreach($opts['options'] as $val => $text) : ?>
                 <option value="<?= $val ?>"><?= $text ?></option>
             <?php endforeach ?>
@@ -40,6 +40,8 @@ defined('C5_EXECUTE') or die(_("Access Denied."));
 <script>
 console.log($.fn.jquery);
 $(document).ready(function() {
-    $('.chosen-multiple select[name="<?= $name ?>"]').chosen();
+    $('.chosen-multiple select[name="<?= $name ?>[]"]').chosen({
+        width: '100%'
+    });
 });
 </script>
