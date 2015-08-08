@@ -20,7 +20,6 @@ $f = $value ? File::getByID($value) : null;
     <?php if($label) : ?>
         <label for="<?= $name ?>"><?= $label ?></label>
     <?php endif ?>
-    <?= $value ?>
     <?= $al->image('img-' . $opts['id'], $name, $opts['placeholder'], $f, $opts['options']) ?>
     <span id="clear-img-<?= $name ?>" class="clear-img btn">clear</span>
 </div>

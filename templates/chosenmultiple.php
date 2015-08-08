@@ -5,6 +5,7 @@ defined('C5_EXECUTE') or die(_("Access Denied."));
  * $label => {string / boolean} define if label should be used and also define
  * 			 the label content
  * $value => an array with the ids of the selected items
+ *
  * $opts:
  * 	[class] => {string} define class
  * 	[id] => {string} define unique identifier
@@ -24,15 +25,15 @@ defined('C5_EXECUTE') or die(_("Access Denied."));
  *  ]
  */
 
+$value = is_array($value) ? $value : [$value];
 ?>
 
 <div id="<?= $opts['id'] ?>" class="form-group chosen-multiple <?= $opts['class'] ?>">
     <label class="control-label"><?= $label ?></label>
     <div class="chosen-multiple-select">
-        <?= $value ?> 
         <select class="form-control" name="<?= $name ?>[]" <?= $opts['disabled'] ? 'disabled' : '' ?> multiple="multiple">
             <?php foreach($opts['options'] as $val => $text) : ?>
-                <option value="<?= $val ?>"><?= $text ?></option>
+                <option  value="<?= $val ?>" <?= in_array($val, $value) ? 'selected="selected"' : '' ?>><?= $text ?></option>
             <?php endforeach ?>
         </select>
     </div>
