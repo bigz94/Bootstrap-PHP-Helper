@@ -29,6 +29,7 @@ defined('C5_EXECUTE') or die(_("Access Denied."));
 <div id="<?= $opts['id'] ?>" class="form-group chosen-multiple <?= $opts['class'] ?>">
     <label class="control-label"><?= $label ?></label>
     <div class="chosen-multiple-select">
+        <?= $value ?> 
         <select class="form-control" name="<?= $name ?>[]" <?= $opts['disabled'] ? 'disabled' : '' ?> multiple="multiple">
             <?php foreach($opts['options'] as $val => $text) : ?>
                 <option value="<?= $val ?>"><?= $text ?></option>
