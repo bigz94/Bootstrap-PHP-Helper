@@ -1,10 +1,14 @@
 <?php
+
+use \Concrete\Package\Tableeditor\Controller\DbParser;
+
 defined('C5_EXECUTE') or die(_("Access Denied."));
+
 /**
  * Template for multiple select box using the choosen library
  * $label => {string / boolean} define if label should be used and also define
  * 			 the label content
- * $value => an array with the ids of the selected items
+ * $value => {array / string} an array of ids or the id of the selected items
  *
  * $opts:
  * 	[class] => {string} define class
@@ -27,7 +31,6 @@ defined('C5_EXECUTE') or die(_("Access Denied."));
 
 $value = is_array($value) ? $value : [$value];
 ?>
-
 <div id="<?= $opts['id'] ?>" class="form-group chosen-multiple <?= $opts['class'] ?>">
     <label class="control-label"><?= $label ?></label>
     <div class="chosen-multiple-select">
