@@ -3,6 +3,8 @@
 use \Concrete\Package\Tableeditor\Controller\DbParser;
 
 defined('C5_EXECUTE') or die(_("Access Denied."));
+if(!defined('BOOTSTRAP_PLUGIN'))
+    return;
 
 /**
  * Template for multiple select box using the choosen library

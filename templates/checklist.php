@@ -1,5 +1,8 @@
 <?php
 defined('C5_EXECUTE') or die(_("Access Denied."));
+if(!defined('BOOTSTRAP_PLUGIN'))
+    return;
+
 /**
  * Template for the bootstrap checkbox
  * $label => {string / boolean} define if label should be used and also define

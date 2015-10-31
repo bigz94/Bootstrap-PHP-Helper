@@ -87,6 +87,7 @@ class Bootstrapped {
 	protected function loadTemplate($label, $name, $value, $opts, $template) {
 		// load php template
 		ob_start();
+		define('BOOTSTRAP_PLUGIN', true);
 		include('templates/' . $template . '.php');
 		$content = ob_get_contents();
 		ob_end_clean();

@@ -1,4 +1,7 @@
 <?php defined('C5_EXECUTE') or die(_("Access Denied."));
+if(!defined('BOOTSTRAP_PLUGIN'))
+    return;
+
 /**
  * Template for the wrap
  * using $opt variable:
